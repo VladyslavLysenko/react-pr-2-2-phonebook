@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { Form } from './Form';
 import { ContactsList } from './ContactsList';
+import { Filter } from './Filter';
 
 export class App extends Component {
   state = {
@@ -29,13 +30,29 @@ export class App extends Component {
     }));
   };
 
+  handlerFilterName = event => {
+    this.saveFilter(event.target.value);
+  };
+
+  saveFilter = filterValue => {
+    this.setState({
+      filter: filterValue,
+    });
+  };
+
   render() {
     console.log();
     const contacts = this.state.contacts;
+    const filterValue = this.state.filter.toLowerCase();
+    const filtredContacts = contacts.filter(item =>
+      item.name.toLowerCase().includes(filterValue)
+    );
+
     return (
       <>
         <Form onSubmit={this.formSubmitHanlder} />
-        <ContactsList contacts={contacts} />
+        <Filter value={this.state.filter} onChange={this.saveFilter} />
+        <ContactsList contacts={filtredContacts} />
       </>
     );
   }
