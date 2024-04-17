@@ -1,9 +1,17 @@
-export const ContactsItem = ({ contacts }) => (
+export const ContactsItem = ({ contacts, handlerDelete }) => (
   <>
-
     {contacts.map(item => (
       <li key={item.id}>
-        {item.name} : {item.number}
+        <span>
+          {item.name} : {item.number}
+        </span>{' '}
+        <button
+          onClick={() => {
+            handlerDelete(item.id);
+          }}
+        >
+          Delete
+        </button>
       </li>
     ))}
   </>

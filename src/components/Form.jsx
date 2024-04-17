@@ -8,14 +8,14 @@ export class Form extends Component {
 
   handleSubmtit = event => {
     event.preventDefault();
-    //   console.log(this.state);
-      this.props.onSubmit(this.state);
-      this.reset();
+    // console.log(this.props);
+    this.props.onSubmit(this.state);
+    this.reset();
   };
 
   handleChange = event => {
     const { name, value } = event.target;
-    console.log(event.target.name);
+    // console.log(event.target.name);
     this.setState({ [name]: value });
   };
 
@@ -30,7 +30,6 @@ export class Form extends Component {
     return (
       <form onSubmit={this.handleSubmtit}>
         <label>
-          {' '}
           Name
           <input
             onChange={this.handleChange}
@@ -41,7 +40,7 @@ export class Form extends Component {
           />
         </label>
         <label>
-          Contact{' '}
+          Contact
           <input
             onChange={this.handleChange}
             value={this.state.number}

@@ -16,18 +16,26 @@ export class App extends Component {
     filter: '',
   };
 
-  formSubmitHanlder = data => {
-    let contact = data;
-    this.setState(prevState => ({
-      contacts: [
-        ...prevState.contacts,
-        {
-          id: nanoid(),
-          name: contact.name,
-          number: contact.number,
-        },
-      ],
-    }));
+  saveContact = contact => {
+    let contacts = this.state.contacts;
+    const checkName = contacts
+      .map(item => item.name.toLowerCase())
+      .some(item => item === contact.name.toLowerCase());
+
+    if (checkName) {
+      return alert('Contact added before');
+    } else {
+      this.setState(prevState => ({
+        contacts: [
+          ...prevState.contacts,
+          {
+            id: nanoid(),
+            name: contact.name,
+            number: contact.number,
+          },
+        ],
+      }));
+    }
   };
 
   handlerFilterName = event => {
@@ -40,6 +48,13 @@ export class App extends Component {
     });
   };
 
+  deleteContact = id => {
+    console.log(id);
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(item => item.id !== id),
+    }));
+  };
+
   render() {
     console.log();
     const contacts = this.state.contacts;
@@ -50,9 +65,12 @@ export class App extends Component {
 
     return (
       <>
-        <Form onSubmit={this.formSubmitHanlder} />
+        <Form onSubmit={this.saveContact} />
         <Filter value={this.state.filter} onChange={this.saveFilter} />
-        <ContactsList contacts={filtredContacts} />
+        <ContactsList
+          contacts={filtredContacts}
+          handlerDelete={this.deleteContact}
+        />
       </>
     );
   }
